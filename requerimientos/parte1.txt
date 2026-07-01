@@ -1,0 +1,13 @@
+Roles de Usuario:
+Pacientes / Cuidadores: Pueden elegir una plantilla para llenar los campos.
+Personal de Salud: Puede ver datos / registros del paciente.
+Flujo Central (Información Canalizada):
+Notas: Se dividen en Información y Urgencia.
+Módulos: Usuario (con sus respectivos Roles: Paciente/Médico) y Registros.
+Herramientas: Calendario.
+Notificaciones: Recordatorios y Alarmas.
+Requisitos de UX/UI:
+Características Generales: Responsive, Intuitiva, Fácil Acceso, Ingreso sin contraseña.
+Orientación por Dispositivo:
+PC: Orientado a Personal de la Salud.
+iOS / Android (Móvil): Orientado a Pacientes / Cuidadores. Destaca el uso de Botones Grandes.

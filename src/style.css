@@ -1,0 +1,120 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import './assets/glasskit/glasskit.css';
+
+/* Sobrescritura de comportamiento de scroll y fijado para cuidApp */
+body {
+  background-attachment: fixed;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.spin-animation {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+}
+
+/* Glassmorphism Table Styles & Highlights */
+.table-hover tbody tr:hover td {
+  background-color: rgba(14, 165, 233, 0.15) !important;
+  color: #fff !important;
+  text-shadow: 0 0 10px rgba(14, 165, 233, 0.4);
+}
+.table tbody tr td {
+  background-color: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #ffffffd9 !important;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.table thead th {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+  background-color: transparent !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* GlassKit Button Overrides to defeat Bootstrap overrides */
+.btn.btn-glass-primary, .btn-glass-primary {
+  background: rgba(14, 165, 233, 0.45) !important;
+  border: 1px solid rgba(14, 165, 233, 0.6) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.2s ease !important;
+}
+.btn.btn-glass-primary:hover:not(:disabled), .btn-glass-primary:hover:not(:disabled) {
+  background: rgba(14, 165, 233, 0.65) !important;
+  border-color: rgba(14, 165, 233, 0.9) !important;
+  color: #fff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4) !important;
+}
+
+.btn.btn-glass-danger, .btn-glass-danger {
+  background: rgba(220, 53, 69, 0.45) !important;
+  border: 1px solid rgba(220, 53, 69, 0.6) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.2s ease !important;
+}
+.btn.btn-glass-danger:hover:not(:disabled), .btn-glass-danger:hover:not(:disabled) {
+  background: rgba(220, 53, 69, 0.65) !important;
+  border-color: rgba(220, 53, 69, 0.9) !important;
+  color: #fff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4) !important;
+}
+
+.btn.btn-glass-secondary, .btn-glass-secondary {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  color: #fff !important;
+  transition: all 0.2s ease !important;
+}
+.btn.btn-glass-secondary:hover, .btn-glass-secondary:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  color: #fff !important;
+}
+
+/* Pain Scale Buttons */
+.pain-btn {
+  transition: all 0.2s ease !important;
+  cursor: pointer;
+}
+.pain-btn:hover {
+  z-index: 2 !important;
+}
+
+/* Ocultar flechas nativas de inputs tipo number */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Ajustes responsivos para posicionar el Login y el logo CuidApp en móvil */
+@media (max-width: 767px) {
+  #login-section {
+    justify-content: flex-start !important;
+    padding-top: 10px !important;
+    min-height: 100vh !important;
+    height: 100vh !important;
+  }
+  .zorin-login-container {
+    height: calc(100vh - 30px) !important;
+    min-height: 520px !important;
+    justify-content: space-between !important;
+    padding: 10px 0 !important;
+  }
+}
+

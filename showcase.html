@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación de cuidApp - Showcase Interactiva</title>
+    
+    <!-- Preconnect to CDNs -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- cuidApp Style Sheets -->
+    <link rel="stylesheet" href="/src/style.css" />
+
+    <style>
+        :root {
+            /* Configurar variables base del Glassmorphism (Salud / Clínico de cuidApp) */
+            --bg-color: #060f12;
+            --grad1-color: rgba(10, 38, 48, 1);
+            --grad2-color: rgba(5, 23, 33, 1);
+            --grad3-color: rgba(8, 18, 25, 1);
+            --orb-color: rgba(13, 202, 240, 0.15);
+
+            /* Configurar colores de Bootstrap (Sobrescritos con paleta médica) */
+            --bs-primary: #0ea5e9;
+            --bs-primary-rgb: 14, 165, 233;
+            --bs-secondary: #64748b;
+            --bs-secondary-rgb: 100, 116, 139;
+            --bs-success: #10b981;
+            --bs-success-rgb: 16, 185, 129;
+            --bs-warning: #f59e0b;
+            --bs-warning-rgb: 245, 158, 11;
+            --bs-danger: #ef4444;
+            --bs-danger-rgb: 239, 68, 68;
+            --bs-info: #06b6d4;
+            --bs-info-rgb: 6, 182, 212;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, var(--grad1-color) 0%, transparent 50%),
+                radial-gradient(at 100% 100%, var(--grad2-color) 0%, transparent 50%),
+                radial-gradient(at 50% 50%, var(--grad3-color) 0%, transparent 50%);
+            height: 100vh;
+            color: #fff;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        #ambient-orb {
+            position: fixed;
+            width: 45vw;
+            height: 45vw;
+            max-width: 800px;
+            max-height: 800px;
+            border-radius: 50%;
+            background: var(--orb-color);
+            filter: blur(140px);
+            pointer-events: none;
+            z-index: -1;
+            transform: translate(50vw,50vh) translate(-50%,-50%);
+            top: 0;
+            left: 0;
+            will-change: transform;
+            transition: transform 3s cubic-bezier(.22,1,.36,1);
+        }
+
+        .showcase-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .glass-card-showcase {
+            width: 100%;
+            max-width: 900px;
+            height: 780px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: #ffffff0d;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 24px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            padding: 30px 40px;
+        }
+
+        /* Custom Dots Indicator */
+        .carousel-indicators [data-bs-target] {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            margin: 0 6px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .carousel-indicators .active {
+            background-color: var(--bs-primary) !important;
+            width: 28px;
+            border-radius: 5px;
+            border-color: var(--bs-primary) !important;
+        }
+
+        .feature-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+        }
+
+        .carousel-item {
+            height: 560px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 30px 60px 10px;
+        }
+
+        /* Slide Transition: extremely smooth fade transition without vertical shifting */
+        .carousel-item {
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .interactive-demo {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 15px 20px;
+            margin-top: 15px;
+        }
+
+        .pulse-heart {
+            animation: heartPulse 1.8s infinite;
+        }
+
+        @keyframes heartPulse {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.12); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.12); }
+            70% { transform: scale(1); }
+        }
+
+        /* Medical themed icon color util classes */
+        .text-primary-glass { color: var(--bs-primary) !important; }
+        .text-info-glass { color: var(--bs-info) !important; }
+        .text-warning-glass { color: var(--bs-warning) !important; }
+        .text-danger-glass { color: var(--bs-danger) !important; }
+        .text-success-glass { color: var(--bs-success) !important; }
+
+        /* GlassKit Custom Select dropdown styles */
+        .custom-select-trigger {
+            background-image: none !important;
+            padding-right: 12px !important;
+        }
+        .custom-select-dropdown {
+            background: rgba(10, 38, 48, 0.95) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 1050;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        .custom-select-option {
+            color: rgba(255, 255, 255, 0.75);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .custom-select-option:hover {
+            background: rgba(var(--bs-primary-rgb), 0.25) !important;
+            color: #fff !important;
+        }
+        .custom-select-option.active {
+            background: var(--bs-primary) !important;
+            color: #fff !important;
+        }
+
+        @media (max-width: 767px) {
+            .glass-card-showcase {
+                height: 92vh;
+                min-height: 580px;
+                padding: 20px;
+            }
+            .carousel-item {
+                height: 480px;
+                justify-content: flex-start;
+                padding: 15px 35px 10px;
+            }
+            .feature-icon-wrapper {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 10px;
+            }
+            .feature-icon-wrapper i {
+                font-size: 1.5rem !important;
+            }
+            .carousel-indicators {
+                margin-top: 10px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="ambient-orb"></div>
+
+    <div class="showcase-container">
+        <!-- Main Showcase Card (GlassKit card wrapper) -->
+        <div class="glass-card-showcase">
+            
+            <!-- Card Header: Brand Header -->
+            <div class="d-flex justify-content-between align-items-center border-bottom border-light border-opacity-10 pb-3 mb-2">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-heart-pulse-fill text-danger-glass fs-4 pulse-heart"></i>
+                    <h4 class="fw-bold m-0" style="font-family: 'Outfit', sans-serif; letter-spacing: 2px; font-size: 1.25rem;">cuidApp</h4>
+                </div>
+                <span class="text-white-50 small d-none d-sm-inline">Presentación Interactiva de Funcionalidades</span>
+            </div>
+
+            <!-- Card Body: Carousel -->
+            <div id="showcaseCarousel" class="carousel slide carousel-fade flex-grow-1" data-bs-ride="false" data-bs-interval="false">
+                
+                <!-- Inner Slides -->
+                <div class="carousel-inner">
+                    <!-- Slide 1: Welcome -->
+                    <div class="carousel-item active">
+                        <div class="text-center">
+                            <div class="feature-icon-wrapper">
+                                <i class="bi bi-rocket-takeoff-fill text-primary-glass fs-2"></i>
+                            </div>
+                            <h2 class="fw-bold mb-3" style="font-family: 'Outfit', sans-serif;">Monitoreo Clínico de Siguiente Nivel</h2>
+                            <p class="text-white text-opacity-75 mx-auto mb-4" style="max-width: 600px; font-size: 1.05rem;">
+                                cuidApp es una plataforma web móvil y de escritorio diseñada para cuidadores de pacientes crónicos. Integra un motor de diseño adaptativo Glassmorphism que optimiza la experiencia visual y operativa.
+                            </p>
+                            <div class="row g-3 justify-content-center mt-2">
+                                <div class="col-md-6">
+                                    <div class="glass-card p-3 text-start h-100" style="border-radius: 12px;">
+                                        <i class="bi bi-shield-fill-check text-success-glass fs-4 mb-2"></i>
+                                        <h6 class="fw-bold">Datos Seguros</h6>
+                                        <p class="small text-white-50 mb-0">Controles de integridad temporal y sellado de registros médicos.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="glass-card p-3 text-start h-100" style="border-radius: 12px;">
+                                        <i class="bi bi-phone-fill text-info-glass fs-4 mb-2"></i>
+                                        <h6 class="fw-bold">100% Responsivo</h6>
+                                        <p class="small text-white-50 mb-0">Diseño pensado para el uso rápido y cómodo desde cualquier celular o computador.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2: Adaptive Modules -->
+                    <div class="carousel-item">
+                        <div class="text-center">
+                            <div class="feature-icon-wrapper">
+                                <i class="bi bi-cpu-fill text-info-glass fs-2"></i>
+                            </div>
+                            <h2 class="fw-bold mb-2" style="font-family: 'Outfit', sans-serif;">Módulos Clínicos Adaptativos</h2>
+                            <p class="text-white text-opacity-75 mx-auto mb-2" style="max-width: 600px;">
+                                La pantalla de evaluación se reconfigura dinámicamente según las patologías activas del paciente seleccionado. Pruébalo a continuación:
+                            </p>
+                            
+                            <!-- Interactive Toggle Demo -->
+                            <div class="interactive-demo mx-auto text-start" style="max-width: 550px;">
+                                <div class="mb-3 d-flex justify-content-between align-items-center">
+                                    <span class="small fw-semibold text-white-50">Selecciona el diagnóstico del Paciente:</span>
+                                    <select id="demoPatientSelect" class="form-select form-select-sm text-white" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); width: 200px;">
+                                        <option value="hipertension">Juan Díaz (Hipertensión)</option>
+                                        <option value="diabetes">María Rodríguez (Diabetes)</option>
+                                        <option value="multiple">Carlos Mendoza (Ambas)</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="glass-card p-3 mb-2 demo-card text-white border-primary" id="demoCardHipertension" style="background: rgba(14, 165, 233, 0.15) !important; border-color: rgba(14, 165, 233, 0.3) !important;">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <i class="bi bi-activity text-primary-glass fs-5"></i>
+                                        <h6 class="m-0 fw-bold">Módulo de Presión Arterial</h6>
+                                    </div>
+                                    <p class="small text-white-50 mb-0">Muestra campos de Presión Sistólica, Diastólica, Frecuencia Cardíaca y Edemas.</p>
+                                </div>
+
+                                <div class="glass-card p-3 demo-card text-white border-info" id="demoCardDiabetes" style="background: rgba(6, 182, 212, 0.15) !important; border-color: rgba(6, 182, 212, 0.3) !important; display: none;">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <i class="bi bi-droplet-fill text-info-glass fs-5"></i>
+                                        <h6 class="m-0 fw-bold">Módulo Glucémico Capilar</h6>
+                                    </div>
+                                    <p class="small text-white-50 mb-0">Habilita campos de Glicemia (mg/dL), momentos de toma y dosis de insulina.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3: Steppers Demo -->
+                    <div class="carousel-item">
+                        <div class="text-center">
+                            <div class="feature-icon-wrapper">
+                                <i class="bi bi-plus-slash-minus text-warning-glass fs-2"></i>
+                            </div>
+                            <h2 class="fw-bold mb-2" style="font-family: 'Outfit', sans-serif;">Selectores Numéricos Táctiles</h2>
+                            <p class="text-white text-opacity-75 mx-auto mb-2" style="max-width: 600px;">
+                                Para evitar el teclado nativo del celular, rediseñamos los campos numéricos como steppers táctiles de alta precisión. Interactúa con ellos:
+                            </p>
+                            
+                            <!-- Steppers Interactive Demo -->
+                            <div class="interactive-demo mx-auto text-start" style="max-width: 420px;">
+                                <div class="mb-3">
+                                    <label class="glass-label d-flex justify-content-between mb-2" style="font-size: 0.85rem; opacity: 0.85;">
+                                        <span>Presión Sistólica (mmHg)</span>
+                                        
+                                    </label>
+                                    <div class="input-group input-group-lg">
+                                        <button type="button" class="btn btn-glass-secondary px-3 fw-bold" id="demoDecBtn" style="border-top-left-radius: 12px; border-bottom-left-radius: 12px; font-size: 1.25rem;">-</button>
+                                        <input type="number" id="demoStepperInput" class="form-control text-center text-white" value="120" readonly style="background: rgba(255, 255, 255, 0.05) !important; border-left: none !important; border-right: none !important; border-top: 1px solid rgba(255, 255, 255, 0.15) !important; border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;">
+                                        <button type="button" class="btn btn-glass-secondary px-3 fw-bold" id="demoIncBtn" style="border-top-right-radius: 12px; border-bottom-right-radius: 12px; font-size: 1.25rem;">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="mb-2">
+                                    <label class="glass-label d-flex justify-content-between mb-2" style="font-size: 0.85rem; opacity: 0.85;">
+                                        <span>Frecuencia Cardíaca (BPM)</span>
+                                        
+                                    </label>
+                                    <div class="input-group input-group-lg">
+                                        <button type="button" class="btn btn-glass-secondary px-3 fw-bold" id="demoBpmDecBtn" style="border-top-left-radius: 12px; border-bottom-left-radius: 12px; font-size: 1.25rem;">-</button>
+                                        <input type="number" id="demoBpmInput" class="form-control text-center text-white" value="75" readonly style="background: rgba(255, 255, 255, 0.05) !important; border-left: none !important; border-right: none !important; border-top: 1px solid rgba(255, 255, 255, 0.15) !important; border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;">
+                                        <button type="button" class="btn btn-glass-secondary px-3 fw-bold" id="demoBpmIncBtn" style="border-top-right-radius: 12px; border-bottom-right-radius: 12px; font-size: 1.25rem;">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4: Temporal Seal Lock -->
+                    <div class="carousel-item">
+                        <div class="text-center">
+                            <div class="feature-icon-wrapper">
+                                <i class="bi bi-shield-lock-fill text-danger-glass fs-2"></i>
+                            </div>
+                            <h2 class="fw-bold mb-2" style="font-family: 'Outfit', sans-serif;">Sello de Seguridad Clínico</h2>
+                            <p class="text-white text-opacity-75 mx-auto mb-2" style="max-width: 600px;">
+                                cuidApp protege la veracidad diagnóstica bloqueando los registros de días pasados. Modifica la fecha para observar el comportamiento:
+                            </p>
+                            
+                            <!-- Lock Demo -->
+                            <div class="interactive-demo mx-auto text-start" style="max-width: 480px;">
+                                <div class="mb-3">
+                                    <label class="small text-white-50 mb-1">Fecha de Registro:</label>
+                                    <input type="date" id="demoDateInput" class="form-control text-white" style="background: rgba(0,0,0,0.3) !important; border: 1px solid rgba(255,255,255,0.15) !important;">
+                                </div>
+                                
+                                <div class="glass-card p-3 d-flex align-items-center gap-3 transition-all" id="demoLockWarning" style="border-radius: 12px; background: rgba(16, 185, 129, 0.15) !important; border: 1px solid rgba(16, 185, 129, 0.3) !important;">
+                                    <i id="demoLockIcon" class="bi bi-unlock-fill text-success-glass fs-3"></i>
+                                    <div>
+                                        <h6 class="m-0 fw-bold text-success-glass" id="demoLockStatus">Día Actual: Edición Habilitada</h6>
+                                        <p class="small text-white-50 mb-0" id="demoLockDesc">Puedes ingresar y guardar nuevos datos clínicos sin restricciones.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 5: Management CRUD -->
+                    <div class="carousel-item">
+                        <div class="text-center">
+                            <div class="feature-icon-wrapper">
+                                <i class="bi bi-people-fill text-success-glass fs-2"></i>
+                            </div>
+                            <h2 class="fw-bold mb-3" style="font-family: 'Outfit', sans-serif;">Panel de Administración Total</h2>
+                            <p class="text-white text-opacity-75 mx-auto mb-4" style="max-width: 600px;">
+                                La aplicación cuenta con una robusta sección de administración que permite gestionar el registro de pacientes, modificar su información personal e historial, y enlazar cuidadores asignados.
+                            </p>
+                            <div class="glass-card p-3 mx-auto text-start" style="max-width: 500px; border-radius: 16px;">
+                                <div class="d-flex justify-content-between align-items-center border-bottom border-light border-opacity-10 pb-2 mb-2">
+                                    <span class="fw-bold small">Gestión de Cuidadores y Pacientes</span>
+                                    <span class="badge bg-success bg-opacity-25 text-success rounded-pill px-2" style="font-size: 0.75rem;">Operativo</span>
+                                </div>
+                                <ul class="small text-white-50 ps-3 mb-0">
+                                    <li class="mb-1"><strong>CRUD Completo:</strong> Creación, edición y eliminación inmediata de perfiles.</li>
+                                    <li class="mb-1"><strong>Integración de Datos:</strong> Los perfiles de cuidadores se asocian de forma inteligente a los pacientes.</li>
+                                    <li><strong>Roles y Permisos:</strong> Separación estricta de cuentas Administrador y Cuidador.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Left / Right Controls (Without circular background borders) -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#showcaseCarousel" data-bs-slide="prev" style="width: 5%; opacity: 0.85;">
+                    <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#showcaseCarousel" data-bs-slide="next" style="width: 5%; opacity: 0.85;">
+                    <span class="carousel-control-next-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+
+                <!-- Indicator Dots (Manual placement inside wrapper) -->
+                <div class="carousel-indicators position-static mt-3 mb-0">
+                    <button type="button" data-bs-target="#showcaseCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#showcaseCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#showcaseCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#showcaseCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                    <button type="button" data-bs-target="#showcaseCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                </div>
+            </div>
+
+            <!-- Card Footer: Control Buttons -->
+            <div class="d-flex justify-content-center border-top border-light border-opacity-10 pt-3 mt-2">
+                <a href="/" class="btn btn-glass-secondary px-5 py-2.5" style="border-radius: 12px; font-weight: 500;">
+                    <i class="bi bi-arrow-left me-2"></i>Volver a cuidApp
+                </a>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Interactive Script for Showcase Features -->
+    <script type="module">
+        // Orb movement tracking
+        let orbFrameId = null;
+        document.addEventListener('mousemove', function (e) {
+            if (orbFrameId) cancelAnimationFrame(orbFrameId);
+            orbFrameId = requestAnimationFrame(() => {
+                const orb = document.getElementById('ambient-orb');
+                if (orb) {
+                    orb.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+                }
+            });
+        });
+
+        // Initialize Carousel
+        const carouselEl = document.getElementById('showcaseCarousel');
+        const carousel = new bootstrap.Carousel(carouselEl, {
+            interval: false,
+            ride: false,
+            wrap: true
+        });
+
+        // Global keyboard navigation (ArrowLeft / ArrowRight)
+        document.addEventListener('keydown', (e) => {
+            const activeEl = document.activeElement;
+            if (activeEl && (
+                activeEl.tagName === 'INPUT' || 
+                activeEl.tagName === 'SELECT' || 
+                activeEl.tagName === 'TEXTAREA' || 
+                activeEl.isContentEditable
+            )) {
+                return; // Do not transition if user is typing
+            }
+
+            if (e.key === 'ArrowLeft') {
+                carousel.prev();
+            } else if (e.key === 'ArrowRight') {
+                carousel.next();
+            }
+        });
+
+        // DEMO 1: Dynamic modules reconfiguring
+        const demoPatientSelect = document.getElementById('demoPatientSelect');
+        const demoCardHipertension = document.getElementById('demoCardHipertension');
+        const demoCardDiabetes = document.getElementById('demoCardDiabetes');
+
+        demoPatientSelect.addEventListener('change', (e) => {
+            const val = e.target.value;
+            if (val === 'hipertension') {
+                demoCardHipertension.style.display = 'block';
+                demoCardDiabetes.style.display = 'none';
+            } else if (val === 'diabetes') {
+                demoCardHipertension.style.display = 'none';
+                demoCardDiabetes.style.display = 'block';
+            } else {
+                demoCardHipertension.style.display = 'block';
+                demoCardDiabetes.style.display = 'block';
+            }
+        });
+
+        // DEMO 2: Stepper controls
+        const demoStepperInput = document.getElementById('demoStepperInput');
+        const demoValDisplay = document.getElementById('demoValDisplay');
+        const demoDecBtn = document.getElementById('demoDecBtn');
+        const demoIncBtn = document.getElementById('demoIncBtn');
+
+        demoDecBtn.addEventListener('click', () => {
+            let val = parseInt(demoStepperInput.value);
+            if (val > 60) {
+                val -= 5;
+                demoStepperInput.value = val;
+                demoValDisplay.textContent = `${val} mmHg`;
+            }
+        });
+
+        demoIncBtn.addEventListener('click', () => {
+            let val = parseInt(demoStepperInput.value);
+            if (val < 200) {
+                val += 5;
+                demoStepperInput.value = val;
+                demoValDisplay.textContent = `${val} mmHg`;
+            }
+        });
+
+        // DEMO 2.2: BPM stepper controls
+        const demoBpmInput = document.getElementById('demoBpmInput');
+        const demoBpmDisplay = document.getElementById('demoBpmDisplay');
+        const demoBpmDecBtn = document.getElementById('demoBpmDecBtn');
+        const demoBpmIncBtn = document.getElementById('demoBpmIncBtn');
+
+        demoBpmDecBtn.addEventListener('click', () => {
+            let val = parseInt(demoBpmInput.value);
+            if (val > 40) {
+                val -= 5;
+                demoBpmInput.value = val;
+                demoBpmDisplay.textContent = `${val} BPM`;
+            }
+        });
+
+        demoBpmIncBtn.addEventListener('click', () => {
+            let val = parseInt(demoBpmInput.value);
+            if (val < 180) {
+                val += 5;
+                demoBpmInput.value = val;
+                demoBpmDisplay.textContent = `${val} BPM`;
+            }
+        });
+
+        // DEMO 3: Calendar Lock
+        const demoDateInput = document.getElementById('demoDateInput');
+        const demoLockWarning = document.getElementById('demoLockWarning');
+        const demoLockIcon = document.getElementById('demoLockIcon');
+        const demoLockStatus = document.getElementById('demoLockStatus');
+        const demoLockDesc = document.getElementById('demoLockDesc');
+
+        // Set default date to today
+        const todayStr = new Date().toISOString().split('T')[0];
+        demoDateInput.value = todayStr;
+
+        demoDateInput.addEventListener('change', (e) => {
+            const selectedDate = e.target.value;
+            if (selectedDate === todayStr) {
+                demoLockWarning.style.setProperty('background', 'rgba(16, 185, 129, 0.15)', 'important');
+                demoLockWarning.style.setProperty('border-color', 'rgba(16, 185, 129, 0.3)', 'important');
+                demoLockIcon.className = 'bi bi-unlock-fill text-success-glass fs-3';
+                demoLockStatus.textContent = 'Día Actual: Edición Habilitada';
+                demoLockStatus.className = 'm-0 fw-bold text-success-glass';
+                demoLockDesc.textContent = 'Puedes ingresar y guardar nuevos datos clínicos sin restricciones.';
+            } else {
+                demoLockWarning.style.setProperty('background', 'rgba(239, 68, 68, 0.15)', 'important');
+                demoLockWarning.style.setProperty('border-color', 'rgba(239, 68, 68, 0.3)', 'important');
+                demoLockIcon.className = 'bi bi-lock-fill text-danger-glass fs-3';
+                demoLockStatus.textContent = 'Registro Histórico: Lectura Protegida';
+                demoLockStatus.className = 'm-0 fw-bold text-danger-glass';
+                demoLockDesc.textContent = 'Este registro pertenece a un día anterior. La edición está deshabilitada.';
+            }
+        });
+
+        // --- INITIALIZE CUSTOM SELECTS (GLASSKIT) ---
+        function initCustomSelects() {
+            if (typeof document === 'undefined') return;
+            
+            document.querySelectorAll('.form-select').forEach(select => {
+                if (select.parentNode && select.parentNode.classList.contains('custom-select-wrapper')) return;
+
+                select.style.display = 'none';
+
+                const wrapper = document.createElement('div');
+                wrapper.className = 'custom-select-wrapper position-relative';
+
+                const trigger = document.createElement('div');
+                trigger.className = 'form-select custom-select-trigger d-flex justify-content-between align-items-center';
+                trigger.style.cursor = 'pointer';
+
+                const triggerText = document.createElement('span');
+                const selectedOption = select.options[select.selectedIndex];
+                triggerText.textContent = selectedOption ? selectedOption.textContent : '';
+                trigger.appendChild(triggerText);
+
+                const arrow = document.createElement('i');
+                arrow.className = 'bi bi-chevron-down ms-2 text-white';
+                arrow.style.transition = 'transform 0.2s ease';
+                trigger.appendChild(arrow);
+
+                wrapper.appendChild(trigger);
+
+                const dropdown = document.createElement('div');
+                dropdown.className = 'custom-select-dropdown glass-card position-absolute w-100 mt-1 d-none p-2';
+                dropdown.style.zIndex = '1050';
+
+                Array.from(select.options).forEach((option, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'custom-select-option px-3 py-2 rounded-2 mb-1';
+                    if (index === select.options.length - 1) {
+                        item.className = 'custom-select-option px-3 py-2 rounded-2';
+                    }
+                    item.textContent = option.textContent;
+
+                    if (index === select.selectedIndex) {
+                        item.classList.add('active');
+                    }
+
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        select.selectedIndex = index;
+                        select.dispatchEvent(new Event('change', { bubbles: true }));
+
+                        triggerText.textContent = option.textContent;
+
+                        dropdown.querySelectorAll('.custom-select-option').forEach((opt, idx) => {
+                            if (idx === index) {
+                                opt.classList.add('active');
+                            } else {
+                                opt.classList.remove('active');
+                            }
+                        });
+
+                        dropdown.classList.add('d-none');
+                        arrow.style.transform = 'rotate(0deg)';
+                    });
+
+                    dropdown.appendChild(item);
+                });
+
+                wrapper.appendChild(dropdown);
+
+                trigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isOpen = !dropdown.classList.contains('d-none');
+                    document.querySelectorAll('.custom-select-dropdown').forEach(d => d.classList.add('d-none'));
+                    document.querySelectorAll('.custom-select-trigger i').forEach(a => a.style.transform = 'rotate(0deg)');
+
+                    if (!isOpen) {
+                        dropdown.classList.remove('d-none');
+                        arrow.style.transform = 'rotate(180deg)';
+                    }
+                });
+
+                select.parentNode.insertBefore(wrapper, select);
+                wrapper.appendChild(select);
+            });
+
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.custom-select-dropdown').forEach(d => d.classList.add('d-none'));
+                document.querySelectorAll('.custom-select-trigger i').forEach(a => a.style.transform = 'rotate(0deg)');
+            });
+        }
+
+        // Run custom select initializer
+        initCustomSelects();
+    </script>
+</body>
+</html>

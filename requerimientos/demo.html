@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cuidApp - Prototipo UI GlassKit</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <style>
+    /* Fondo vibrante para resaltar el efecto de cristal desenfocado */
+    body {
+      background: linear-gradient(135deg, #14b8a6 0%, #3b82f6 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding-bottom: 50px;
+    }
+
+    /* Estructura base de las tarjetas de cristal (GlassKit) */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.20);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+    }
+
+    /* Inputs y áreas de texto translúcidos */
+    .glass-input {
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 16px;
+      color: #1e293b;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .glass-input:focus {
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.3);
+      outline: none;
+    }
+
+    .glass-input::placeholder {
+      color: #64748b;
+      font-weight: 400;
+    }
+
+    /* Botones de selección múltiple estilo cristal */
+    .btn-glass {
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: #fff;
+      border-radius: 16px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-glass:hover, .btn-glass:active, .btn-glass:focus {
+      background: rgba(255, 255, 255, 0.6);
+      color: #0f766e;
+      border-color: #ffffff;
+    }
+
+    /* Estilización del slider nativo para que encaje con el tema */
+    .form-range::-webkit-slider-thumb {
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    .form-range::-webkit-slider-runnable-track {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+    }
+
+    /* Tipografía interna de las tarjetas */
+    .glass-title {
+      color: #f8fafc;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .glass-label {
+      color: #f1f5f9;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    /* Switch de toggle más grande y amigable */
+    .form-switch .form-check-input {
+      width: 3em;
+      height: 1.5em;
+      background-color: rgba(255, 255, 255, 0.4);
+      border: none;
+    }
+    .form-switch .form-check-input:checked {
+      background-color: #10b981;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container py-4" style="max-width: 480px;">
+    
+    <div class="text-center mb-4 mt-2">
+      <h1 class="text-white fw-bold" style="text-shadow: 0 4px 6px rgba(0,0,0,0.2); font-size: 2.5rem;">
+        <i class="bi bi-heart-pulse-fill text-danger"></i> cuidApp
+      </h1>
+      <p class="text-white-50 fw-semibold">Ingreso Diario Rápido</p>
+    </div>
+
+    <div class="card glass-card mb-4 border-0">
+      <div class="card-body p-4">
+        <h4 class="glass-title mb-4"><i class="bi bi-activity"></i> Cardiovascular</h4>
+        
+        <div class="row mb-4">
+          <div class="col-6">
+            <label class="glass-label mb-2">Sistólica (mmHg)</label>
+            <input type="number" class="form-control form-control-lg glass-input" placeholder="Ej. 120">
+          </div>
+          <div class="col-6">
+            <label class="glass-label mb-2">Diastólica (mmHg)</label>
+            <input type="number" class="form-control form-control-lg glass-input" placeholder="Ej. 80">
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="glass-label d-flex justify-content-between mb-2">
+            <span>Frecuencia Cardíaca</span>
+            <span id="bpm-val" class="fw-bold bg-white text-dark px-2 rounded-pill">75 BPM</span>
+          </label>
+          <input type="range" class="form-range" min="40" max="180" value="75" oninput="document.getElementById('bpm-val').innerText = this.value + ' BPM'">
+        </div>
+
+        <label class="glass-label mb-2">¿Síntomas Atípicos?</label>
+        <div class="d-flex gap-2 flex-wrap">
+          <button class="btn btn-glass flex-fill py-2">Mareo</button>
+          <button class="btn btn-glass flex-fill py-2">Cefalea</button>
+          <button class="btn btn-glass flex-fill py-2">Ninguno</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card glass-card mb-4 border-0">
+      <div class="card-body p-4">
+        <h4 class="glass-title mb-4"><i class="bi bi-droplet-fill text-info"></i> Metabólica</h4>
+        
+        <label class="glass-label mb-2">Momento de Medición</label>
+        <select class="form-select glass-input mb-4 py-2 text-start">
+          <option>Ayunas (Antes del desayuno)</option>
+          <option>Pre-comida</option>
+          <option>Post-comida (2h después)</option>
+          <option>Antes de dormir</option>
+        </select>
+
+        <div class="mb-4">
+          <label class="glass-label mb-2">Glucemia Capilar (mg/dL)</label>
+          <input type="number" class="form-control form-control-lg glass-input text-danger fw-bold" style="font-size: 1.8rem;" placeholder="0">
+        </div>
+
+        <div class="mb-2">
+          <label class="glass-label mb-2">Dosis Insulina (UI) <small class="fw-normal text-white-50">- Opcional</small></label>
+          <input type="number" step="0.5" class="form-control glass-input py-2 text-start" placeholder="0.0">
+        </div>
+      </div>
+    </div>
+
+    <div class="card glass-card mb-4 border-0">
+      <div class="card-body p-4">
+        <h4 class="glass-title mb-4"><i class="bi bi-person-hearts text-warning"></i> General</h4>
+        
+        <div class="form-check form-switch mb-4 d-flex align-items-center gap-3">
+          <input class="form-check-input m-0" type="checkbox" role="switch" id="medicationSwitch">
+          <label class="form-check-label glass-label mb-0" style="font-size: 1.1rem;" for="medicationSwitch">Medicación tomada hoy</label>
+        </div>
+
+        <div class="mb-4">
+          <label class="glass-label d-flex justify-content-between mb-2">
+            <span>Nivel de Dolor (1-10)</span>
+            <span id="pain-val" class="fw-bold bg-white text-dark px-2 rounded-pill">0</span>
+          </label>
+          <input type="range" class="form-range" min="0" max="10" value="0" oninput="document.getElementById('pain-val').innerText = this.value">
+        </div>
+
+        <div class="mb-4">
+          <label class="glass-label mb-3">Estado de Ánimo</label>
+          <div class="d-flex justify-content-between px-3">
+            <i class="bi bi-emoji-frown fs-1 text-white-50" style="cursor: pointer;"></i>
+            <i class="bi bi-emoji-neutral fs-1 text-white-50" style="cursor: pointer;"></i>
+            <i class="bi bi-emoji-smile fs-1 text-white" style="cursor: pointer; text-shadow: 0 0 15px rgba(255,255,255,0.8);"></i>
+            <i class="bi bi-emoji-laughing fs-1 text-white-50" style="cursor: pointer;"></i>
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <label class="glass-label mb-2">Notas Rápidas del Cuidador</label>
+          <textarea class="form-control glass-input text-start p-3" rows="3" placeholder="Anota aquí cualquier observación inusual, problemas para dormir, o comentarios del paciente..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-grid gap-3 mt-2">
+      <button class="btn btn-light btn-lg fw-bold rounded-pill shadow-lg py-3" style="color: #0f766e; font-size: 1.2rem;">
+        Guardar Registros
+      </button>
+      <button class="btn btn-outline-light rounded-pill py-2" style="border-width: 2px;">
+        <i class="bi bi-mic-fill me-2"></i> Grabar Nota de Voz
+      </button>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
