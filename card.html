@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cuidApp - Tarjeta de Presentación</title>
+
+  <!-- Mismas fuentes del proyecto -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap 5 CSS & Icons (misma versión del proyecto) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f5f7;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: #1a1a2e;
+    }
+
+    /* === Orbe ambiental suave === */
+    .ambient-orb {
+      position: fixed;
+      width: 45vw;
+      height: 45vw;
+      max-width: 800px;
+      max-height: 800px;
+      border-radius: 50%;
+      background: rgba(14, 165, 233, 0.04);
+      filter: blur(140px);
+      pointer-events: none;
+      z-index: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* === Tarjeta === */
+    .glass-card {
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      color: #1a1a2e;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .card-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 680px;
+      max-width: 92vw;
+      padding: 52px 48px;
+      text-align: center;
+    }
+
+    /* === Logo === */
+    .logo-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      background: none;
+      border: none;
+      margin-bottom: 24px;
+    }
+    .logo-icon i {
+      font-size: 2.2rem;
+      color: #1a1a2e !important;
+    }
+
+    /* === Título === */
+    .app-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 2.6rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: #1a1a2e;
+      margin-bottom: 6px;
+    }
+
+    /* === Subtítulo === */
+    .app-subtitle {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 400;
+      font-size: 0.82rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #8a8a9a;
+      margin-bottom: 28px;
+    }
+
+    /* === Divider === */
+    .glass-divider {
+      width: 60px;
+      height: 2px;
+      margin: 0 auto 28px;
+      background: linear-gradient(90deg, transparent, #c0c4cc, transparent);
+      border-radius: 2px;
+    }
+
+    /* === Descripción === */
+    .app-description {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: #5a5a6e;
+      max-width: 520px;
+      margin: 0 auto 32px;
+      font-weight: 400;
+    }
+    .app-description strong {
+      color: #1a1a2e;
+      font-weight: 600;
+    }
+
+    /* === Badges === */
+    .badge-glass {
+      background: #f0f1f3;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      color: #4a4a5a;
+      font-size: 0.76rem;
+      padding: 7px 14px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+    }
+    .badge-glass i {
+      font-size: 0.82rem;
+      color: #4a4a5a !important;
+    }
+
+    .features-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* === Footer === */
+    .card-footer {
+      margin-top: 32px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.68rem;
+      color: #b0b0ba;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Orbe ambiental idéntico al de la app -->
+  <div class="ambient-orb"></div>
+
+  <!-- Tarjeta -->
+  <div class="glass-card card-wrapper">
+
+    <!-- Logo -->
+    <div class="logo-icon">
+      <i class="bi bi-heart-pulse-fill"></i>
+    </div>
+
+    <!-- Título -->
+    <h1 class="app-title">CUIDAPP</h1>
+    <p class="app-subtitle">Registro Médico Inteligente</p>
+
+    <!-- Divider -->
+    <div class="glass-divider"></div>
+
+    <!-- Descripción -->
+    <p class="app-description">
+      <strong>Tu aliado en el cuidado diario de quienes más quieres.</strong> Simplificamos el seguimiento de condiciones como hipertensión y diabetes, transformando el registro de salud en una tarea <strong>sencilla, segura y libre de estrés</strong> para ti.
+    </p>
+
+    <!-- Badges -->
+    <div class="features-row">
+      <span class="badge-glass">
+        <i class="bi bi-phone-fill"></i> Accesible
+      </span>
+      <span class="badge-glass">
+        <i class="bi bi-shield-lock-fill"></i> Segura
+      </span>
+      <span class="badge-glass">
+        <i class="bi bi-clipboard2-pulse-fill"></i> Modular
+      </span>
+      <span class="badge-glass">
+        <i class="bi bi-people-fill"></i> Multi-Rol
+      </span>
+    </div>
+
+    <!-- Footer -->
+    <p class="card-footer">Desarrollado en · GlassKit UI · Vite · 2026</p>
+  </div>
+
+</body>
+</html>
